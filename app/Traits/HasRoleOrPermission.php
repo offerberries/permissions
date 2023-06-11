@@ -9,14 +9,12 @@ trait HasRoleOrPermission
 {
 
     // Check user role
-     
+
     public function HasRole($role)
     {
-       
-      return (bool)  $this->roles->contains('slug', $role);
 
-        
-        
+        return (bool) $this->roles->contains('slug', $role);
+
     }
 
     // Check user Permission
@@ -29,24 +27,22 @@ trait HasRoleOrPermission
 
     public function HasPermissionThroughRole($permission)
     {
-        $user_permission = Permission::where('slug', $permission)->first();    
 
-        foreach ($user_permission->roles as $role) {
-            if($this->roles->contains('slug', $role->slug)) {
+        $permission = Permission::where('slug', $permission)->firstOrFail();
+        foreach ($permission->roles as $role) {
+            if ($this->roles->contains('slug', $role->slug)) {
                 return true;
             }
         }
         return false;
+
     }
 
-    
     // check permission through role and heck permission alone
 
     public function hasPermissionTo($permission)
     {
         return (bool) $this->hasPermission($permission) || $this->hasPermissionThroughRole($permission);
     }
-
-
 
 }

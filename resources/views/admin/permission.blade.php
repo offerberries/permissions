@@ -15,25 +15,13 @@
             <div class="content">
                 <div class="container">
                     <div class="page-title">
-                        <h3>User Permissions
+                        <h3>Assign Roles 
                             <a href="{{url('roles')}}" class="btn btn-sm btn-outline-info float-end"><i class="fas fa-angle-left"></i> <span class="btn-header">Return</span></a>
                         </h3>
-                        @if(Session::has('msg'))
-                        <p class="alert alert-info">{{ Session::get('msg') }}</p>
-                       
-                            
-                        @else
-                            
-                        
-                        @endif
-
-                       
-        
-                     
                     </div>
                     <div class="box box-primary">
                         <div class="box-body">
-                            <form accept-charset="utf-8" action=""  method="post" id="form">
+                            <form accept-charset="utf-8" action="{{ route('assign-role-to-user.store') }}"  method="post" id="form">
                               @csrf
                                 <div class="mb-3">
                                     <label for="email" class="form-label text-uppercase"><small>Dashboard</small></label>
@@ -44,44 +32,15 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="email" class="text-uppercase"><small>Users Roles</small></label>
-                                    <div class="form-check">
-                                      <input class="form-check-input" type="radio" name="flex" value="admin" id="flexRadioDefault1">
-                                      <label class="form-check-label" for="flexRadioDefault1">
-                                        Admin
-                                      </label>
-                                    </div>
-                                    <div class="form-check">
-                                      <input class="form-check-input" type="radio" name="flex" value="teacher" id="flexRadioDefault2"checked >
-                                      <label class="form-check-label" for="flexRadioDefault2">
-                                        Teacher
-                                      </label>
-                                    </div>
-                                    <div class="form-check">
-                                      <input class="form-check-input" type="radio" name="flex" value="student" id="flexRadioDefault2" >
-                                      <label class="form-check-label" for="flexRadioDefault2">
-                                        Student
-                                      </label>
-                                    </div>
+                                    <div class="form-group">
+                                    <label for="exampleFormControlSelect1">Select Role</label>
+                                    <select class="form-control" name="role" id="exampleFormControlSelect1">
+                                        @foreach ($roles as $role)
+                                            <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <input type="hidden" name="user_id" value="{{ $user->id }}">
                                 </div>
-                                <div class="mb-3">
-                                    <label for="email" class="text-uppercase"><small>Roles & Permissions</small></label>
-
-                                    <div class="form-check form-switch">
-                                      <input class="form-check-input" type="checkbox" id="add" value="add" name="add">
-                                      <label class="form-check-label" for="switch5">Add Roles</label>
-                                    </div>
-                                    <div class="form-check form-switch">
-                                      <input class="form-check-input" type="checkbox" id="edit"  value="edit" name="add">
-                                      <label class="form-check-label" for="switch6">Edit Roles</label>
-                                    </div>
-                                    <div class="form-check form-switch">
-                                      <input class="form-check-input" type="checkbox" id="delete"  value="delete" name="add">
-                                      <label class="form-check-label" for="switch7">Delete Roles</label>
-                                    </div>
-                                    <div class="form-check form-switch">
-                                      <input class="form-check-input" type="checkbox" id="update"  value="update" name="add">
-                                      <label class="form-check-label" for="switch8">Update Permissions</label>
-                                    </div>
                                 </div>
                                 <input type="submit" class="btn btn-primary mb-3" >
                             </form>

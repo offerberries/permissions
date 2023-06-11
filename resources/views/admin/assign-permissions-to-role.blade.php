@@ -34,8 +34,6 @@
                                         @endforeach
                                     </select>
                                 </div>
-
-
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Permissions</label>
                                     @foreach ($permissions as $permission)

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Permission;
 use App\Models\Role;
-use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\Permission;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 
 class AuthrizationController extends Controller
 {
@@ -71,6 +72,23 @@ class AuthrizationController extends Controller
             $role->permissions()->attach($perm);
         }
 
+
+        return redirect()->back();
+    }
+
+    public function assignRoleToUser(User $user)
+    {
+        $roles = Role::all();
+        return view('admin.permission', compact('user', 'roles'));
+    }
+
+    public function storeRoleToUser(Request $request)
+    {
+        $role = Role::findOrFail($request->role);
+
+        $user = User::findOrFail($request->user_id);
+
+        $user->roles()->attach($role);
 
         return redirect()->back();
     }

@@ -24,8 +24,10 @@ Route::get('roles', [HomeController::class, 'roles']);
 Route::get('permission/{id}', [HomeController::class, 'permission']);
 Route::post('permission/{id}', [HomeController::class, 'permissions']);
 
-Route::get('/create-role', [AuthrizationController::class, 'createRole'])->middleware('auth')->name('role.create');
-Route::post('/create-role', [AuthrizationController::class, 'storeRole'])->middleware('auth')->name('role.store');
+Route::middleware(['can:read-view'])->group(function() {
+    Route::get('/create-role', [AuthrizationController::class, 'createRole'])->middleware('auth')->name('role.create');
+    Route::post('/create-role', [AuthrizationController::class, 'storeRole'])->middleware('auth')->name('role.store');
+});
 
 Route::get('/create-permission', [AuthrizationController::class, 'createPermission'])->middleware('auth')->name('permission.create');
 Route::post('/create-permission', [AuthrizationController::class, 'storePermission'])->middleware('auth')->name('permission.store');
@@ -33,6 +35,8 @@ Route::post('/create-permission', [AuthrizationController::class, 'storePermissi
 Route::get('/assign-permissions-to-role', [AuthrizationController::class, 'createAssignPermissionToRole'])->middleware('auth')->name('assign-permissions-to-role.create');
 Route::post('/assign-permissions-to-role', [AuthrizationController::class, 'storeAssignPermissionToRole'])->middleware('auth')->name('assign-permissions-to-role.store');
 
+Route::get('/assign-role-to-user/{user}', [AuthrizationController::class, 'assignRoleToUser'])->name('assign-role-to-user.create');
+Route::post('/assign-role-to-user', [AuthrizationController::class, 'storeRoleToUser'])->name('assign-role-to-user.store');
 
 Route::middleware([
     'auth:sanctum',
